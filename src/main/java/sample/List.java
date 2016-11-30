@@ -31,31 +31,13 @@ class List<E> implements Serializable {
             tail = null;
             return ret;
         }
-//Find Max priority in list
+//Find Max priority in list and get first value in queue with this priority
         ListElement<E> listElement = head;
         do {
             if (listElement.getPriority().getValueOfPriority() >= highestPriority.getValueOfPriority()) {
                 highestPriority = listElement.getPriority();
             }
         } while ((listElement = listElement.next) != null);
-
-//        if (head.data == data) {    //если первый элемент - тот, что нам нужен
-//            head = head.next;       //переключаем указатель начала на второй элемент
-//            return;                 //и выходим
-//        }
-//
-//        ListElement t = head;       //иначе начинаем искать
-//        while (t.next != null) {    //пока следующий элемент существует
-//            if (t.next.data == data) {  //проверяем следующий элемент
-//                if(tail == t.next)      //если он последний
-//                {
-//                    tail = t;           //то переключаем указатель на последний элемент на текущий
-//                }
-//                t.next = t.next.next;   //найденный элемент выкидываем
-//                return;                 //и выходим
-//            }
-//            t = t.next;                //иначе ищем дальше
-
         if (head.getPriority().getValueOfPriority() == highestPriority.getValueOfPriority()) {
             ret = head;
             head = head.next;
