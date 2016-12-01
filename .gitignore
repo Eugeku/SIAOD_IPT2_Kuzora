@@ -1,0 +1,10 @@
+*.class
+.idea/compiler.xml
+*.html
+.idea/encodings.xml
+*.xml
+target/classes/sample.fxml
+*.properties
+*.lst
+*.jar
+target/file1.ser
