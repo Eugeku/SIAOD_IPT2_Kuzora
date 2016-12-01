@@ -68,72 +68,24 @@ public class Controller {
         comboBox2.setItems(counts);
         comboBox2.setValue(counts.get(0));
         button4.disableProperty().setValue(false);
+        button1.disableProperty().setValue(false);
     }
 
     public void setButton4(ActionEvent event) {
+        textArea2.clear();
         int countOfCores;
         Thread t = Thread.currentThread();
         countOfCores = comboBox2.getValue();
         Simulator[] simulators = new Simulator[countOfCores];
-        Simulator.clearMessage2();
         for (int i = 0; i <= countOfCores - 1; i++) {
             String name = "Core " + i;
-            simulators[i] = new Simulator(name);
+            simulators[i] = new Simulator(name, textArea2, textArea1);
             simulators[i].statr();
             try {
                 Thread.sleep(1);
             } catch (Exception e) {
             }
         }
-        try {
-            switch (countOfCores) {
-                case 1:
-                    simulators[0].t.join();
-                    break;
-                case 2:
-                    simulators[0].t.join();
-                    simulators[1].t.join();
-                    break;
-                case 4:
-                    simulators[0].t.join();
-                    simulators[1].t.join();
-                    simulators[2].t.join();
-                    simulators[3].t.join();
-                    break;
-                case 8:
-                    simulators[0].t.join();
-                    simulators[1].t.join();
-                    simulators[2].t.join();
-                    simulators[3].t.join();
-                    simulators[4].t.join();
-                    simulators[5].t.join();
-                    simulators[6].t.join();
-                    simulators[7].t.join();
-                    break;
-                case 16:
-                    simulators[0].t.join();
-                    simulators[1].t.join();
-                    simulators[2].t.join();
-                    simulators[3].t.join();
-                    simulators[4].t.join();
-                    simulators[5].t.join();
-                    simulators[6].t.join();
-                    simulators[7].t.join();
-                    simulators[8].t.join();
-                    simulators[9].t.join();
-                    simulators[10].t.join();
-                    simulators[11].t.join();
-                    simulators[12].t.join();
-                    simulators[13].t.join();
-                    simulators[14].t.join();
-                    simulators[15].t.join();
-                    break;
-            }
-        } catch (Exception e) {
-        }
-        updateTextArea2(Simulator.message2);
-        textArea1.clear();
-        textArea1.setText(integerList.viewList());
     }
 
     public void setButton2(ActionEvent event) {
@@ -141,7 +93,6 @@ public class Controller {
         textArea1.clear();
         textArea1.setText(integerList.viewList());
         comboBox2.setItems(counts);
-        comboBox2.setValue(counts.get(0));
         textArea2.clear();
     }
 
@@ -149,8 +100,4 @@ public class Controller {
         saveListToFile("file1.ser");
     }
 
-    private void updateTextArea2(String message) {
-        textArea2.clear();
-        textArea2.setText(message);
-    }
 }

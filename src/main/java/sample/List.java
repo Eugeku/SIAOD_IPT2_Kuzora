@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 /**
  * Created by Eugene13 on 24.11.2016.
+ * Class List<E>
+ * 1) Класс реализует интерфес Serializable для последующей сериализации;
+ * 2) Реализована логика изымания из очереди (takeElement) элемента с наибольшим приоритетом;
+ * 3) Все метода синхронизированы т.к. с одним общим ресурсом класса  List<E> возможно будет работать более одного
+ * потока;
  */
 class List<E> implements Serializable {
     private ListElement<E> head;
@@ -58,7 +63,6 @@ class List<E> implements Serializable {
         return ret;
     }
 
-
     synchronized boolean hasListElements() {
         return (head != null);
     }
@@ -69,7 +73,6 @@ class List<E> implements Serializable {
         ListElement<E> listElement = head;
         do {
             list = list + "Имя процесса: " + listElement.getProcessName() + ", приоритет: " + listElement.getPriority().getValueOfPriority() + ", значение: " + listElement.getSomeValue() + "\n";
-
         } while ((listElement = listElement.next) != null);
         return list;
     }

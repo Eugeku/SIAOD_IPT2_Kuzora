@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 /**
  * Created by Eugene13 on 24.11.2016.
+ * Class ListElement<E>:
+ * 1) Класс реализует интерфес Serializable для последующей сериализации;
  */
 class ListElement<E> implements Serializable {
     private String processName;

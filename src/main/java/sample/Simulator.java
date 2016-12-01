@@ -1,23 +1,32 @@
 package sample;
 
+import javafx.application.Platform;
+import javafx.scene.control.TextArea;
 import java.io.*;
 
 /**
  * Created by Eugene13 on 24.11.2016.
+ * Class Simulator:
+ * 1) Класс реализует интерфейс Runnable, для реализации многопоточного процесса;
+ * 2) Класс хранит общий ресурс(integerList для всех потоков), который хранит очередь, с извлекаемыми элементами;
+ * 3) В классе реализованы методы для серилизации (saveListToFile) и десерилизации (loadListFromFile);
  */
 public class Simulator implements Runnable {
-    Thread t;
     private String threadName;
     static List<String> integerList = new List<>();
-    private String message;
-    static volatile String message2 = "";
+    private String message, message2;
+    private TextArea textArea2, textArea1;
 
-    Simulator(String threadName) {
+    Simulator(String threadName, TextArea textArea2, TextArea textArea1) {
         this.threadName = threadName;
+        this.textArea1 = textArea1;
+        this.textArea2 = textArea2;
         message = "Поток " + threadName + "";
+        message2 = "";
     }
 
     void statr() {
+        Thread t;
         t = new Thread(this, threadName);
         switch (threadName) {
             case "Core 0":
@@ -92,22 +101,26 @@ public class Simulator implements Runnable {
         ListElement<String> listElement;
         long time;
         while (integerList.hasListElements()) {
-            listElement = integerList.takeElement();
-            message2 += message + " начал " + listElement.getProcessName()+" (Приоритет: "+listElement.getPriority().getValueOfPriority()+")" + "\n";
             time = (long) (100 + Math.random() * 1000);
+            listElement = integerList.takeElement();
+            message2 = message + " начал " + listElement.getProcessName() + " (При-т: " + listElement.getPriority().getValueOfPriority() + "): " + time + " (мс)\n";
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    textArea2.appendText(message2);
+                    textArea1.clear();
+                    textArea1.setText(integerList.viewList());
+                }
+            });
             try {
                 Thread.sleep(time);
             } catch (Exception e) {
             }
-            message2 += getMessage(listElement, time) + "\n";
+            message2 = getMessage(listElement, time) + "\n";
         }
     }
 
     String getMessage(ListElement<String> listElement, long time) {
         return message + " завершил " + listElement.getProcessName() + ", длительность " + time + " (мс)";
-    }
-
-    static void clearMessage2() {
-        message2 = "";
     }
 }
